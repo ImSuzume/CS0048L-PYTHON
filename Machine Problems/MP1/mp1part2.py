@@ -4,66 +4,100 @@ Users can view available items, add items to their cart, and calculate the total
 their purchase, including VAT (12%).
 """
 
-#value
 Rice = 50
-Eggs = 7
+Egg = 7
 Milk = 60
 Bread = 35
 total = 0
-choice = 0
+rice_qty = 0
+eggs_qty = 0
+milk_qty = 0
+bread_qty = 0
 
 def Items():
-    print ("============================")
-    print (f"1. Rice - ₱{Rice}")
-    print (f"2. Eggs - ₱{Eggs}")
-    print (f"3. Milk - ₱{Milk}")
-    print (f"4. Bread - ₱{Bread}")
-    print ("============================")
+    print("======= ITEM LIST ========")
+    print(f"1. Rice - ₱{Rice}")
+    print(f"2. Eggs - ₱{Egg}")
+    print(f"3. Milk - ₱{Milk}")
+    print(f"4. Bread - ₱{Bread}")
 
 def AddtoCart():
-        choice=input("Select an item: ").lower()
-        if (choice == 'rice'):
-            print ("Added Rice to your order.")
-            total += Rice
-        elif (choice == 'egg'):
-            print ("Added Eggs to your order.")
-            total += Eggs
-        elif (choice == 'milk'):
-            print ("Added Milk to your order.")
-            total += Milk
-        elif (choice == 'bread'):
-            print ("Added Bread to your order.")
-            total += Bread
-        else:
-            print("Invalid input.")
-            
-def CheckOut(total):
-    print ("====== Order Summary =======")
-    VAT = total*.12
-    totalfinal = total+VAT
-    print (f"Total before VAT: ₱{total:.2f}")
-    print (f"VAT: ₱{VAT:.2f}")
-    print (f"Final Amount to Pay: ₱{totalfinal:.2f}")
+    global total, rice_qty, eggs_qty, milk_qty, bread_qty
+    item = input("Enter item to add (Rice, Egg, Milk, Bread): ").lower()
+    
+    if (item == "rice"):
+        price = Rice
+        quantity = int(input(f"Enter quantity of Rice to add: "))
+        rice_qty += quantity
+        total += price * quantity
+        print(f"Added {quantity} Rice(s) to your cart.")
+    elif (item == "egg"):
+        price = Egg
+        quantity = int(input(f"Enter quantity of Eggs to add: "))
+        eggs_qty += quantity
+        total += price * quantity
+        print(f"Added {quantity} Egg(s) to your cart.")
+    elif (item == "milk"):
+        price = Milk
+        quantity = int(input(f"Enter quantity of Milk to add: "))
+        milk_qty += quantity
+        total += price * quantity
+        print(f"Added {quantity} Milk(s) to your cart.")
+    elif (item == "bread"):
+        price = Bread
+        quantity = int(input(f"Enter quantity of Bread to add: "))
+        bread_qty += quantity
+        total += price * quantity
+        print(f"Added {quantity} Bread(s) to your cart.")
+    else:
+        print("Invalid item.")
+
+def CheckOut():
+    print("===== Order Summary ======")
+
+    if rice_qty > 0:
+        print(f"Rice x {rice_qty} = ₱{rice_qty * Rice}")
+    if eggs_qty > 0:
+        print(f"Eggs x {eggs_qty} = ₱{eggs_qty * Egg}")
+    if milk_qty > 0:
+        print(f"Milk x {milk_qty} = ₱{milk_qty * Milk}")
+    if bread_qty > 0:
+        print(f"Bread x {bread_qty} = ₱{bread_qty * Bread}")
+
+    VAT = total * 0.12
+    totalfinal = total + VAT
+    print(f"Subtotal: ₱{total:.2f}")
+    print(f"VAT (12%): ₱{VAT:.2f}")
+    print(f"Total: ₱{totalfinal:.2f}")
+    print("Thank you for shopping!")
+    print("Please come again!")
+    print("==========================")
     
 def Menu():
-    print ("============================")
-    print (f"1. View Items")
-    print (f"2. Add to Cart")
-    print (f"3. Checkout")
-    print (f"4. Exit")
-    print ("============================")
+    print("========= MENU ===========")
+    print("1. View Items")
+    print("2. Add to Cart")
+    print("3. Checkout")
+    print("4. Exit")
+    print("==========================")
 
-def main():
-    while (Choice !=4):
-        Menu()
-        Choice = eval(input("Enter choice: "))
-        if (Choice == 1):
+choice = 0
+while choice != 4:
+    Menu()
+    user_input = input("Enter choice: ")
+    if user_input.isdigit():
+        choice = int(user_input)
+        if choice == 1:
             Items()
-        elif (choice == 2):
+        elif choice == 2:
             AddtoCart()
-        elif (choice == 3):
-           CheckOut()
-        elif (choice == 4):
-            print("Thank you!")
+        elif choice == 3:
+            CheckOut()
+            break
+        elif choice == 4:
+            print("See you next time!")
+            break
         else:
             print("Invalid input.")
+    else:
+        print("Please enter a valid number.")
