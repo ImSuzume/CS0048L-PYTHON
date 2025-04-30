@@ -23,26 +23,35 @@ def menu():
 
 while (choice!=5):
     menu()
-    choice=eval(input("Select an item: "))
-    if (choice == 1):
-         print ("Added Burger to your order.")
-         total += Burger
-    elif (choice == 2):
-        print ("Added Pizza to your order.")
-        total += Pizza
-    elif (choice == 3):
-        print ("Added Pasta to your order.")
-        total += Pasta
-    elif (choice == 4):
-        print ("Added Fries to your order.")
-        total += Fries
-    elif (choice == 5):
-        print ("====== Order Summary =======")
-        if (total > 500):
-            totalfinal=total*0.9
+    choice_input = input("Select an item: ")
+    if choice_input == "":
+        print("Please enter a number. Empty input is not allowed.")
+        continue
+    
+    if choice_input.isdigit():
+        choice = int(choice_input)
+        if (choice == 1):
+            print ("Added Burger to your order.")
+            total += Burger
+        elif (choice == 2):
+            print ("Added Pizza to your order.")
+            total += Pizza
+        elif (choice == 3):
+            print ("Added Pasta to your order.")
+            total += Pasta
+        elif (choice == 4):
+            print ("Added Fries to your order.")
+            total += Fries
+        elif (choice == 5):
+            print ("====== Order Summary =======")
+            if (total > 500):
+                totalfinal=total*0.9
+            else:
+                totalfinal=total
+            print (f"Total before discount: ₱{total:.2f}")
+            print (f"Final Amount to Pay: ₱{totalfinal:.2f}")
+            print ("============================")
         else:
-            totalfinal=total
-        print (f"Total before discount: ₱{total:.2f}")
-        print (f"Final Amount to Pay: ₱{totalfinal:.2f}")
+            print("Invalid input. Please enter a number between 1 and 5.")
     else:
-        print("Invalid input.")
+        print("Invalid input. Please enter a number.")

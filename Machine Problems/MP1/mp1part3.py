@@ -1,4 +1,3 @@
-
 """"
 The goal of this machine problem is to create a program to simulate a fitness tracker. 
 Users can add steps to their total step count, view their total steps, and calculate the calories burned based on their steps.
@@ -9,9 +8,13 @@ totalSteps = 0
 def AddSteps():
     global totalSteps
     user_input = input("How many steps? ")
+    if user_input == "":
+        print("Empty input is not allowed. Please enter a number.")
+        return
+        
     if user_input.isdigit():
         steps = int(user_input)
-        if steps < 0:
+        if steps <= 0:
             print("Please enter a positive number of steps.")
         else:
             totalSteps += steps
@@ -38,6 +41,10 @@ choice = 0
 while choice != 4:
     Menu()
     user_input = input("Enter choice: ")
+    if user_input == "":
+        print("Empty input is not allowed. Please enter a number.")
+        continue
+        
     if user_input.isdigit():
         choice = int(user_input)
         if choice == 1:
