@@ -15,11 +15,23 @@ def main():
     for day in days:
         print(f"\nEnter readings for {day}:")
         try:
-            systolic = int(input("  Systolic: "))
-            diastolic = int(input("  Diastolic: "))
+            systolic_input = input("  Systolic: ")
+            diastolic_input = input("  Diastolic: ")
+            
+            try:
+                systolic = int(systolic_input)
+            except ValueError:
+                raise ValueError("Invalid input: Please enter a valid number for systolic")
+            
+            try:
+                diastolic = int(diastolic_input)
+            except ValueError:
+                raise ValueError("Invalid input: Please enter a valid number for diastolic")
+
             category = classify_bp(systolic, diastolic)
             print(f"  Classification: {category}")
             summary[category] += 1
+
         except ValueError as ve:
             print(f"  Error: {ve}")
 

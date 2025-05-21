@@ -35,6 +35,7 @@ def fitness_tracker():
     if total_calories > 500:
         print("Congratulations! You've achieved your daily goal.")
 
+
 def health_monitoring():
     def classify_bp(systolic, diastolic):
         if systolic < 0 or diastolic < 0:
@@ -65,6 +66,7 @@ def health_monitoring():
         print(f"{category}: {count} day(s)")
     if summary["High"] > 3:
         print("Warning: More than 3 days classified as High. Please consult a doctor.")
+
 
 def banking_app():
     transactions = []
@@ -131,6 +133,7 @@ def banking_app():
         print(t)
     print("End of session.")
 
+
 def restaurant_order():
     MENU = {
         "burger": 5,
@@ -144,36 +147,65 @@ def restaurant_order():
             subtotal += MENU[item] * qty
         service_charge = subtotal * 0.10
         total_before_discount = subtotal + service_charge
-        discount = total_before_discount * 0.05 if total_before_discount > 50 else 0
+        discount = total_before_discount * 0.05 if total_before_discount >= 50 else 0
         final_total = total_before_discount - discount
         return subtotal, service_charge, discount, final_total
 
+    def display_menu():
+        print("Menu:")
+        for item, price in MENU.items():
+            print(f"{item.capitalize()}: ${price}")
+        print()
+
+    display_menu()
+
     order = {}
     while True:
-        item = input("Enter item (or 'done' to finish): ").lower()
+        item = input("Enter item (or 'done' to finish): ").strip().lower()
         if item == 'done':
             break
         if item not in MENU:
             print(f"Invalid item. Please select a valid menu item.")
             continue
-        try:
-            qty = int(input(f"Enter quantity of {item}: "))
-            if qty <= 0:
-                print("Invalid quantity. Please enter a positive number.")
-                continue
-            order[item] = order.get(item, 0) + qty
-        except ValueError:
+        qty_input = input(f"Enter quantity of {item}: ").strip()
+        if not qty_input.isdigit():
             print("Invalid quantity. Please enter a valid number.")
+            continue
+        qty = int(qty_input)
+        if qty <= 0:
+            print("Invalid quantity. Please enter a positive number.")
+            continue
+        order[item] = order.get(item, 0) + qty
 
     subtotal, service_charge, discount, final_total = calculate_bill(order)
+
     print("\n--- Final Bill ---")
-    for item, qty in order.items():
-        print(f"{qty} {item.capitalize()}(s): ${MENU[item] * qty}")
+    if not order:
+        print("No items ordered")
+    else:
+        for item, qty in order.items():
+            item_display = item.capitalize()
+            if qty > 1:
+                if item_display.endswith('s'):
+                    item_display += 'es'
+                else:
+                    item_display += 's'
+            print(f"{qty} {item_display}: ${MENU[item] * qty}")
     print(f"Subtotal: ${subtotal:.2f}")
-    print(f"Service Charge (10%): ${service_charge:.2f}")
+    print(f"Service charge (10%): ${service_charge:.2f}")
     if discount > 0:
         print(f"Discount (5%): -${discount:.2f}")
+    else:
+        print("No discount (total bill < $50)")
+    print(f"Final bill: ${final_total:.2f}")
+    print("Itemized details:")
+    if not order:
+        print("No items ordered")
+    else:
+        for item, qty in order.items():
+            print(f"{qty} {item.capitalize()}{'s' if qty > 1 else ''}: ${MENU[item] * qty}")
     print(f"Total: ${final_total:.2f}")
+
 
 def main_menu():
     while True:
@@ -198,6 +230,7 @@ def main_menu():
             break
         else:
             print("Invalid selection. Please choose between 1 and 5.")
+
 
 if __name__ == "__main__":
     main_menu()

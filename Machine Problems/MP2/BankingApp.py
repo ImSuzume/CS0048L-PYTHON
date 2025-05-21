@@ -4,6 +4,7 @@ balance = 0.0
 def deposit(amount):
     global balance
     if amount <= 0:
+        transactions.append(f"Attempted to deposit ${amount} (declined)")
         raise ValueError("Invalid amount. Please enter a positive number.")
     balance += amount
     transactions.append(f"Deposited ${amount}")
@@ -12,6 +13,7 @@ def deposit(amount):
 def withdraw(amount):
     global balance
     if amount <= 0:
+        transactions.append(f"Attempted to withdraw ${amount} (declined)")
         raise ValueError("Invalid amount. Please enter a positive number.")
     if amount > balance:
         transactions.append(f"Attempted to withdraw ${amount} (declined)")
@@ -37,15 +39,29 @@ def main():
         action = input("Choose an action: ").lower()
 
         if action == "deposit":
+            amount_input = input("Enter amount to deposit: $")
             try:
-                amount = float(input("Enter amount to deposit: $"))
+                amount = float(amount_input)
+            except ValueError:
+                transactions.append(f'Attempted to deposit "{amount_input}" (declined)')
+                print("Invalid amount. Please enter a valid number.")
+                continue
+
+            try:
                 print(f"Updated balance: ${deposit(amount)}")
             except ValueError as ve:
                 print(ve)
 
         elif action == "withdraw":
+            amount_input = input("Enter amount to withdraw: $")
             try:
-                amount = float(input("Enter amount to withdraw: $"))
+                amount = float(amount_input)
+            except ValueError:
+                transactions.append(f'Attempted to withdraw "{amount_input}" (declined)')
+                print("Invalid amount. Please enter a valid number.")
+                continue
+
+            try:
                 print(f"Updated balance: ${withdraw(amount)}")
             except ValueError as ve:
                 print(ve)
