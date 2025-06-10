@@ -6,7 +6,7 @@ numbers. The program should continue to run until the user chooses to exit.
 '''
 
 def add(num1, num2):
-    result = num1 + num1
+    result = num1 + num2
     print (f"The sum of {num1} and {num2} is {result}")
     
 def subtract(num1, num2):
