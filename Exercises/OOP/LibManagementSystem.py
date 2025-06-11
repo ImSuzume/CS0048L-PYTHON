@@ -1,58 +1,67 @@
 class Book:
-    def __init__(self, title, author, availability):
+    def __init__(self, title, author, availability=True):  # Default availability
         self.title = title
         self.author = author
         self.availability = availability
-        
+
     def borrowBook(self):
         if self.availability:
             self.availability = False
-            print (f'"{self.title}" borrowed.')
+            print(f'"{self.title}" borrowed.')
         else:
-            print (f'"{self.title}" is currently not available.')
-        
+            print(f'"{self.title}" is currently not available.')
+
     def returnBook(self):
         if self.availability:
-            print (f'"{self.title}" is already in the library.')
+            print(f'"{self.title}" is already in the library.')
         else:
             self.availability = True
-            print (f'"{self.title}" returned.')
-        
+            print(f'"{self.title}" returned.')
+
     def checkAvailability(self):
-        print (f"Book Title: {self.title}")
-        print (f"Book Author: {self.author}")
-        if self.availability:
-            print (f"Book Status: Available")
-        else:
-            print (f"Book Status: Not Available")
-        
+        print(f"Book Title: {self.title}")
+        print(f"Book Author: {self.author}")
+        print(f"Book Status: {'Available' if self.availability else 'Not Available'}")
+        print("-" * 40)
+
+
 class Library:
     def __init__(self):
         self.books = []
-    
+
     def addBook(self):
-        print ("====== Adding new Book ====== ")
+        print("====== Adding new Book ====== ")
         title = input("Enter the Book Title: ")
         author = input("Enter Book's Author: ")
         newBook = Book(title, author)
         self.books.append(newBook)
-        print ("Book Added!")
-    
+        print("Book Added!")
+
     def borrowBook(self):
         title = input("Enter the title of the book you want to borrow: ")
         for book in self.books:
             if book.title.lower() == title.lower():
                 book.borrowBook()
                 return
-            else:
-                print("Book not found in the library.")
-    
+        print("Book not found in the library.")
+
     def returnBook(self):
-        return
-    
+        title = input("Enter the title of the book you want to return: ")
+        for book in self.books:
+            if book.title.lower() == title.lower():
+                book.returnBook()
+                return
+        print("Book not found in the library.")
+
     def viewBooks(self):
-        return
-    
+        if not self.books:
+            print("No books in the library.")
+        else:
+            print("====== Library Book List ======")
+            for book in self.books:
+                book.checkAvailability()
+
+
 def menu():
     print("==============================")
     print("1. Add Book")
@@ -62,24 +71,25 @@ def menu():
     print("5. Exit")
     print("==============================")
 
+
 def main():
-    
-    choice=0
-    while (choice!="5"):
+    library = Library()
+
+    choice = ""
+    while choice != "5":
         menu()
         choice = input("Select an option: ").lower()
-        if choice=="1":
-           Library.addBook()
-        elif choice=="2":
-           Library.borrowBook()
+        if choice == "1":
+            library.addBook()
+        elif choice == "2":
+            library.borrowBook()
         elif choice == "3":
-           Library.returnBook()
+            library.returnBook()
         elif choice == "4":
-           Library.viewBooks()
+            library.viewBooks()
         elif choice == "5":
             print("Exiting. See you soon...")
         else:
-            print("")
             print("Invalid input. Try again.")
-            
+
 main()
